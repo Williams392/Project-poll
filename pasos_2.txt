@@ -1,0 +1,162 @@
+
+_ Desde Consola:
+# comando -> [cd Desktop]
+# comando -> [mkdir app-movies] -> Crar carpeta.
+# comando -> [cd app-movies]
+
+# comando -> [. code] ->  abre vscode en consola.
+
+#---------------------------------------------------------------
+#---------------------------------------------------------------
+
+. Paso 1 -> Crear el ENTORNO VIRTUAL -> venv:
+_ comando -> [[python3 -m venv venv], se crear la carpeta -> [venv]
+
+----() ---- Puede cer el paso 1: ()( ---
+. Paso 2 -> activar el modo virtual en consola:
+. comando -> [[source venv/bin/activate] [source venv/Scripts/activate]
+----)() ------------------------- () ---
+
+#---------------------------------------------------------------
+            Django o Flask, INSTAKLANDO LAS DEPENDENCIAS
+#---------------------------------------------------------------
+
+. Paso 3 -> Instalar Django:
+. comando -> [[pip install Django] 
+
+_ 3.1: Para usar (Django REST Framework)
+--> Comando -> [[pip install djangorestframework]
+
+#----------
+
+. Paso 4 -> Para  guardar las librerias Instalas de Python:
+# comando -> [[pip freeze > requirements.txt]
+
+
+-> Norma sigue al (PASO 5)
+
+((((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))))
+* En caso descargo un PROJECT django ya creado y instalar todo sus LIBRERIAS: *
+
+------------------------------------------------------------------------
+|  . Paso 4.1 -> Crear el ENTORNO VIRTUAL -> venv:                     |
+|  _ comando -> [python3 -m venv venv], se crear la carpeta -> [venv]  |
+|  . Paso 2 -> activar el modo virtual en consola:                     |
+|  - comando -> [source venv/bin/activate]                             |
+------------------------------------------------------------------------
+
+. 4.2 en caso descargo un PROJECT django ya creado y instalar todo sus LIBRERIAS:
+# comando -> [pip install -r requirements.txt]
+# comando -> [pip freeze > requirements2.txt]
+
+# comando -> [python manage.py migrate]
+# comando -> [python manage.py runserver]
+
+. 4.2 -> para ver en consola las dependecias instaladas:
+# comando -> [nano requirements.txt]
+
+. 4.3 Para el Login, iniciar sección:
+_ comando -> [python manage.py createsuperuser]
+_ Username: williams392
+_ email: v_s392@gmail.com
+_ Password: l_45
+
+. 4.2 -> para ver en consola las dependecias instaladas:
+# comando -> [nano requirements.txt]
+
+((((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))))
+
+#---------------------------------------------------------------
+        . Creando una APLICACION:
+#---------------------------------------------------------------
+
+. Esta Aplicacion(authentication) va encapsular todo relacionado al incio de seccion:
+_ comando -> [python manage.py startapp authentication]
+
+#---------------------------------------------------------------
+#---------------------------------------------------------------
+
+. Paso 5 -> Creando un proyecto -> core:
+===> (core) es la principal de TODAS:
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+# comando -> [[django-admin startproject core] -> core/settings -> agregar:
+('views.py')
+# core, adentro crear cada apliacion:
+
+. Paso 5.1 -> para correr las MIGRACIONES y vincular las tablas para la BD
+# comando -> [[python manage.py migrate]
+
+. Paso 5.1.2 -> Para el Login, iniciar sección:
+_ comando -> [[python manage.py createsuperuser]
+_ Username: williams392
+_ email: v_s392@gmail.com
+_ Password: l_45
+
+# comando para secunadio -> [[python manage.py startapp products]
+('serializers.py')
+('views.py')
+('urls.py')
+
+
+# AVISO -> AL CREAR UNA NUEVA APLICACION:
+-> 1. dentro de cada apliacion [urls.py]
+-> 2. dentro de cada apliacion [serializer.py]
+
+#---------------------------------------------------------------
+       CORRER dentro todo de la carpeta -> (core)
+#---------------------------------------------------------------
+
+
+()()()
+_ Paso 6 : Crear SQL lite y Para correr el servidor WEB:
+. Comando -> [python manage.py runserver]
+. 6.1 : para ver un comando en especifico-varios
+. comando -> [python manage.py]
+
+#---------------------------------------------------------------
+       # Adentro de -> Crar carpeta MOVIES.
+       # Comando para base de datos -- (Migraciones)
+#---------------------------------------------------------------
+
+[AVISO -> si vamos a crear authentication primero y despues correr MIGRACIONES]
+. Adentro de -> archivo core:
+
+1. Genera los archivos de migración para aplicar los cambios en BaseDatos:
+. (Siempre que agamos un cambio esto se debe que HACER para ACTUALIZAR)
+. comando -> [python manage.py makemigrations]
+
+2. Aplicar migraciones en el Admin, de todas que trae Django por defecto:
+. comando -> [python manage.py migrate]
+
+#----------
+
+3. Para el Login, iniciar sección:
+_ comando -> [python manage.py createsuperuser]
+_ Username: williams392
+_ email: v_s392@gmail.com
+_ Password: l_45
+
+
+#---------------------------------------------------------------
+_ APUNTES:
+
+. (Body) Para que se genere el TOKEN: 
+http://127.0.0.1:8000/auth/login/
+{
+  "email":"vallewilliams392@gmail.com",
+  "password": "l_5"
+}
+
+. ( Headers) Para cerrar sesion: 
+http://127.0.0.1:8000/auth/logout/
+_ Authorization   |  Token  xxxxx
+
+#-----------
+(Imagenes :)
+1.  la biblioteca Pillow ejecutando el siguiente comando en tu entorno virtual
+_ [ python -m pip install Pillow ]
+
+1.1 si es desde 0 ( terminal CMD ):
+    _ pipenv --version
+    _ pipenv --version
