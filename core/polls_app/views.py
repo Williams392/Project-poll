@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import ValidationError
 
 from .models import Encuesta, Opcion, Voto
 from .serializers import EncuestaSerializer, OpcionSerializer, VotoSerializer
@@ -18,10 +19,10 @@ class EncuestaListCreateView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class EncuestaRetrieveUpdateDeleteView(APIView):
+
+class EncuestaDetailView(APIView):
 
     def get_object(self, pk):
         return get_object_or_404(Encuesta, pk=pk)
@@ -37,13 +38,19 @@ class EncuestaRetrieveUpdateDeleteView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         encuesta = self.get_object(pk)
         encuesta.delete()
         return Response({"msg": f"Encuesta con ID {pk} eliminada"})
+
+    def post(self, request):
+        serializer = EncuestaSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class OpcionListCreateView(APIView):
 
@@ -55,17 +62,19 @@ class OpcionListCreateView(APIView):
     def post(self, request):
         serializer = OpcionSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            encuesta_id = request.data.get('encuesta')
+            encuesta = get_object_or_404(Encuesta, pk=encuesta_id)
+            serializer.save(encuesta=encuesta)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class VotoCreateView(APIView):
 
     def post(self, request):
         serializer = VotoSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            opcion_id = request.data.get('opcion')
+            opcion = get_object_or_404(Opcion, pk=opcion_id)
+            serializer.save(opcion=opcion)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

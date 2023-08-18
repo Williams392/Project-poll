@@ -18,4 +18,5 @@ class EncuestaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Encuesta
-        fields = '__all__'
+        fields = ('id', 'titulo', 'fecha', 'hora', 'opciones', 'estado', 'fech_creacion', 'fech_edicion')
+

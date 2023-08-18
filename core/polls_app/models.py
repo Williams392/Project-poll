@@ -17,7 +17,6 @@ class Opcion(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_edicion = models.DateTimeField(auto_now=True)
 
-
 class Voto(models.Model):
     #id = models.ForeignKey(Profile, on_delete=models.CASCADE)
     opcion = models.ForeignKey(Opcion, related_name='votos', on_delete=models.CASCADE)
