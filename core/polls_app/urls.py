@@ -1,14 +1,15 @@
 from django.urls import path
 from .views import (
-    EncuestaListCreateView,
-    EncuestaRetrieveUpdateDeleteView,
-    OpcionListCreateView,
-    VotoCreateView,
+    SurveyListCreateView,
+    SurveyDetailView,
+    OptionListCreateView,
+    VoteCreateView,
 )
 
+#  surveys(encuestas)
 urlpatterns = [
-    path('encuestas/', EncuestaListCreateView.as_view(), name='encuesta-list-create'),
-    path('encuestas/<int:pk>/', EncuestaRetrieveUpdateDeleteView.as_view(), name='encuesta-retrieve-update-delete'),
-    path('opciones/', OpcionListCreateView.as_view(), name='opcion-list-create'),
-    path('votos/', VotoCreateView.as_view(), name='voto-create'),
+    path('surveys/', SurveyListCreateView.as_view(), name='survey-list-create'),
+    path('surveys/<int:pk>/', SurveyDetailView.as_view(), name='survey-create'),
+    path('options/', OptionListCreateView.as_view(), name='option-list-create'),
+    path('votes/', VoteCreateView.as_view(), name='vote-create'),
 ]

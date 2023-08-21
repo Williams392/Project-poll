@@ -49,8 +49,9 @@ _ 3.1: Para usar (Django REST Framework)
 # comando -> [pip install -r requirements.txt]
 # comando -> [pip freeze > requirements2.txt]
 
-# comando -> [python manage.py migrate]
-# comando -> [python manage.py runserver]
+# comando -> [python manage.py makemigrations}
+# comando -> [python manage.py migrate}
+# comando -> [python manage.py runserver}
 
 . 4.2 -> para ver en consola las dependecias instaladas:
 # comando -> [nano requirements.txt]

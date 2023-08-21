@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # Cada ves que cree una nueva (APLICACION)
     'polls_app',
+    #'authentication',
 ]
 
 MIDDLEWARE = [

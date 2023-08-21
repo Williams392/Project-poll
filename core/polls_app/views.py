@@ -1,22 +1,81 @@
-from django.shortcuts import render
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import ValidationError
 
-# Create your views here.
-from rest_framework import generics
-from .models import Encuesta, Opcion, Voto
-from .serializers import EncuestaSerializer, OpcionSerializer, VotoSerializer
+from .models import Survey, Option, Vote
+from .serializers import SurveySerializer, OptionSerializer, VoteSerializer
 
-class EncuestaListCreateView(generics.ListCreateAPIView):
-    queryset = Encuesta.objects.all()
-    serializer_class = EncuestaSerializer
+class SurveyListCreateView(APIView): # (EncuestasList)
 
-class EncuestaRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Encuesta.objects.all()
-    serializer_class = EncuestaSerializer
+    def get(self, request):
+        surveys = Survey.objects.all()
+        serializer = SurveySerializer(surveys, many=True)
+        return Response(serializer.data)
 
-class OpcionListCreateView(generics.ListCreateAPIView):
-    queryset = Opcion.objects.all()
-    serializer_class = OpcionSerializer
+    def post(self, request):
+        serializer = SurveySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class VotoCreateView(generics.CreateAPIView):
-    queryset = Voto.objects.all()
-    serializer_class = VotoSerializer
+
+class SurveyDetailView(APIView): # (EncuestasDetail)
+
+    def get_object(self, pk):
+        return get_object_or_404(Survey, pk=pk)
+
+    def get(self, request, pk):
+        survey = self.get_object(pk)
+        serializer = SurveySerializer(survey)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        survey = self.get_object(pk)
+        serializer = SurveySerializer(survey, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        survey = self.get_object(pk)
+        survey.delete()
+        # (Encuesta con ID {pk} eliminad)
+        return Response({"msg": f"Survey with ID {pk} deleted"})
+
+    def post(self, request):
+        serializer = SurveySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class OptionListCreateView(APIView):
+
+    def get(self, request):
+        options = Option.objects.all()
+        serializer = OptionSerializer(options, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = OptionSerializer(data=request.data)
+        if serializer.is_valid():
+            survey_id = request.data.get('survey') # encuesta
+            survey = get_object_or_404(Survey, pk=survey_id)
+            serializer.save(survey=survey)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class VoteCreateView(APIView):
+
+    def post(self, request):
+        serializer = VoteSerializer(data=request.data)
+        if serializer.is_valid():
+            option_id = request.data.get('option')
+            option = get_object_or_404(Option, pk=option_id)
+            serializer.save(option=option)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

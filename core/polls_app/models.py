@@ -1,22 +1,31 @@
 from django.db import models
-#from profiles.models import Profile  # Importa el modelo de perfil si está en otra aplicación
+# from authentication.models import Profile  # Import the profile model if it's in another application
 
-class Encuesta(models.Model):
-    titulo = models.CharField(max_length=200)
-    fecha = models.DateField()
-    hora = models.TimeField()
-    estado = models.BooleanField(default=True)
-    #creado_por = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_edicion = models.DateTimeField(auto_now=True)
+class Survey(models.Model):
+    # id = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    date = models.DateField()
+    time = models.TimeField()
+    status = models.BooleanField(default=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    edit_date = models.DateTimeField(auto_now=True)
 
-class Opcion(models.Model):
-    encuesta = models.ForeignKey(Encuesta, related_name='opciones', on_delete=models.CASCADE)
-    texto_opcion = models.CharField(max_length=100)
+class Option(models.Model):
+    # id = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    survey = models.ForeignKey(Survey, related_name='options', on_delete=models.CASCADE)
+    option_text = models.CharField(max_length=100)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    edit_date = models.DateTimeField(auto_now=True)
 
-class Voto(models.Model):
-    opcion = models.ForeignKey(Opcion, related_name='votos', on_delete=models.CASCADE)
-    fecha = models.DateTimeField(auto_now_add=True)
+class Vote(models.Model):
+    # id = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    option = models.ForeignKey(Option, related_name='votes', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+
+
+# ---------------------------------------------------------------
+
+
 
 
 # ---------------------------------------------------------------

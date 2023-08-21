@@ -1,21 +1,21 @@
 from rest_framework import serializers
-from .models import Encuesta, Opcion, Voto
+from .models import Survey, Option, Vote
 
-class VotoSerializer(serializers.ModelSerializer):
+class VoteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Voto
+        model = Vote
         fields = '__all__'
 
-class OpcionSerializer(serializers.ModelSerializer):
-    votos = VotoSerializer(many=True, read_only=True)
+class OptionSerializer(serializers.ModelSerializer):
+    votes = VoteSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Opcion
+        model = Option
         fields = '__all__'
 
-class EncuestaSerializer(serializers.ModelSerializer):
-    opciones = OpcionSerializer(many=True, read_only=True)
+class SurveySerializer(serializers.ModelSerializer):
+    options = OptionSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Encuesta
-        fields = '__all__'
+        model = Survey
+        fields = ('id', 'title', 'date', 'time', 'options', 'status', 'creation_date', 'edit_date')

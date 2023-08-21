@@ -1,9 +1,14 @@
 from django.contrib import admin
-from .models import Encuesta, Opcion, Voto
+from .models import Survey, Option, Vote
 
-admin.site.register(Encuesta)
-admin.site.register(Opcion)
-admin.site.register(Voto)
+class SurveyAdmin(admin.ModelAdmin):
+    list_display = ('title', 'date', 'status', 'creation_date', 'edit_date')
+    ordering = ('-id',)
+
+admin.site.register(Survey, SurveyAdmin)
+admin.site.register(Option)
+admin.site.register(Vote)
+
 
 # ---------------------------------------------------------------
 # Siempre para cada modificacion y Creando cossas nuevas en DJANGO
