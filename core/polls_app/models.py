@@ -1,7 +1,7 @@
 from django.db import models
 # from authentication.models import Profile  # Import the profile model if it's in another application
 
-class Survey(models.Model):
+class Survey(models.Model): # Encuesta
     # id = models.ForeignKey(Profile, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     date = models.DateField()
