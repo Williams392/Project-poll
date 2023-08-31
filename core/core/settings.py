@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,9 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third apps
+    'rest_framework',
+    'rest_framework.authtoken',
+
     # Cada ves que cree una nueva (APLICACION)
     'polls_app',
-    #'authentication',
+
+    'authentication',
+    'polls',
+    'clubs',
+    'fundamentals',
+    'events',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +133,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# Model of authetntication -> aca para: usuario personalizado 
+AUTH_USER_MODEL = "authentication.CustomUser"
+DATA_UPLOAD_MAX_MEMORY_SIZE = 105242880

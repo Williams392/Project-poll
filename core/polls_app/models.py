@@ -27,7 +27,6 @@ class Vote(models.Model):
 
 
 
-
 # ---------------------------------------------------------------
 # Siempre para cada modificacion y Creando cossas nuevas en DJANGO
 # ---------------------------------------------------------------

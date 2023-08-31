@@ -14,7 +14,7 @@ _ comando -> [[python3 -m venv venv], se crear la carpeta -> [venv]
 
 ----() ---- Puede cer el paso 1: ()( ---
 . Paso 2 -> activar el modo virtual en consola:
-. comando -> [[source venv/bin/activate] [source venv/Scripts/activate]
+. comando -> [[source venv/bin/activate] [source venv/Scripts/activate{
 ----)() ------------------------- () ---
 
 #---------------------------------------------------------------
@@ -72,7 +72,7 @@ _ Password: l_45
 #---------------------------------------------------------------
 
 . Esta Aplicacion(authentication) va encapsular todo relacionado al incio de seccion:
-_ comando -> [python manage.py startapp authentication]
+_ comando -> [python manage.py startapp authentication}
 
 #---------------------------------------------------------------
 #---------------------------------------------------------------
@@ -94,7 +94,7 @@ _ Username: williams392
 _ email: v_s392@gmail.com
 _ Password: l_45
 
-# comando para secunadio -> [[python manage.py startapp products]
+# comando para secunadio -> [[python manage.py startapp products{
 ('serializers.py')
 ('views.py')
 ('urls.py')
