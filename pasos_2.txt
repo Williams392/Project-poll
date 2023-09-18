@@ -38,14 +38,14 @@ _ 3.1: Para usar (Django REST Framework)
 ((((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))))
 * En caso descargo un PROJECT django ya creado y instalar todo sus LIBRERIAS: *
 
-------------------------------------------------------------------------
-|  . Paso 4.1 -> Crear el ENTORNO VIRTUAL -> venv:                     |
-|  _ comando -> [python3 -m venv venv], se crear la carpeta -> [venv]  |
-|  . Paso 2 -> activar el modo virtual en consola:                     |
-|  - comando -> [source venv/bin/activate]                             |
-------------------------------------------------------------------------
+--------------------------------------------------------------------------
+|  . Paso 4.1 -> Crear el ENTORNO VIRTUAL -> venv:                        |
+|  _ comando -> [python3 -m venv venv], se crear la carpeta -> [venv]     |
+|  . Paso 4.2 -> activar el modo virtual en consola:                        |
+|  - comando -> [source venv/bin/activate] [source venv/Scripts/activate) |
+--------------------------------------------------------------------------
 
-. 4.2 en caso descargo un PROJECT django ya creado y instalar todo sus LIBRERIAS:
+. 4.3 en caso descargo un PROJECT django ya creado y instalar todo sus LIBRERIAS:
 # comando -> [pip install -r requirements.txt]
 # comando -> [pip freeze > requirements2.txt]
 
@@ -53,16 +53,16 @@ _ 3.1: Para usar (Django REST Framework)
 # comando -> [python manage.py migrate}
 # comando -> [python manage.py runserver}
 
-. 4.2 -> para ver en consola las dependecias instaladas:
+. 4.4 -> para ver en consola las dependecias instaladas:
 # comando -> [nano requirements.txt]
 
-. 4.3 Para el Login, iniciar sección:
+. 4.5 Para el Login, iniciar sección:
 _ comando -> [python manage.py createsuperuser]
 _ Username: williams392
 _ email: v_s392@gmail.com
 _ Password: l_45
 
-. 4.2 -> para ver en consola las dependecias instaladas:
+. 4.6 -> para ver en consola las dependecias instaladas:
 # comando -> [nano requirements.txt]
 
 ((((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))))

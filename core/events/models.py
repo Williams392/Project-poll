@@ -9,19 +9,19 @@ from fundamentals.models import Currency
 from django.core.validators import MinValueValidator
 
 # Nuevo:
-class VisibiltyOptions(models.Model):
+class VisibiltyOptions(models.Model): # Opciones de visibilidad
     name = models.CharField(max_length=60)
 
     def __str__(self):
         return self.name
 
-class StatusOptions(models.Model):
+class StatusOptions(models.Model): # Opciones de estado
     name = models.CharField(max_length=60)
 
     def __str__(self):
         return self.name
     
-class EventTypeOptions(models.Model):
+class EventTypeOptions(models.Model): # Opciones de tipo de evento
     name = models.CharField(max_length=60)
 
     def __str__(self):
@@ -30,16 +30,16 @@ class EventTypeOptions(models.Model):
 
 class Events(models.Model):
     title = models.CharField(max_length=100, null=False, blank=False)
-    state = models.CharField(max_length=20, null=False, blank=False)
+    visibility = models.ForeignKey(VisibiltyOptions, on_delete=models.PROTECT, null=True, blank=True)
+    status = models.ForeignKey(StatusOptions, on_delete=models.PROTECT, null=True, blank=True)
     date = models.DateField(null=False, blank=False)
     hour = models.TimeField(null=False, blank=False)
-    location = models.CharField(max_length=150, null=False, blank=False)
-    event_type = models.CharField(max_length=200, null=False, blank=False)
-    contribution = models.CharField(max_length=200, null=False, blank=False) 
+    location = models.CharField(max_length=350, null=False, blank=False)
+    e_type = models.ForeignKey(EventTypeOptions, on_delete=models.PROTECT, null=True, blank=True) 
     description = models.TextField(null=False, blank=False)
-    
-    organizers = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True)
-    present = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True) 
+    event_banner = models.ImageField(upload_to='event_banners/', null=True, blank=True)
+
+    organizers = models.ForeignKey(Club, on_delete=models.CASCADE, null=True, blank=True) 
 
     # Para no mostrar <Events object> si no mostrará el valor del campo title.
     def __str__(self):
@@ -58,7 +58,7 @@ class Presents (models.Model):
 class Interested (models.Model):
     id_profile = models.ForeignKey (Profile, on_delete=models.PROTECT, null= False)
     id_event = models.ForeignKey (Events, on_delete=models.PROTECT, null= False)
-    interested = models.BooleanField(default=False)  # (interesado)si el usuario está interesado en el evento
+    #interested = models.BooleanField(default=False)  # (interesado)si el usuario está interesado en el evento
 
     def __str__(self): # Nombre del Perfil - Título del Evento
         return f"{self.profile} - {self.event}"
@@ -68,7 +68,7 @@ class Interested (models.Model):
     
 
 # Nuevo:
-class TicketType(models.Model):
+class TicketType(models.Model): # Tipo de billete
     event = models.ForeignKey(Events, on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
     price = models.DecimalField(max_digits=100, decimal_places=2)

@@ -1,8 +1,13 @@
 from django.urls import path
-from .views import EventList, EventDetailView
+from .views import EventList, EventDetailView, TicketListView, TicketTypesListView
 
 urlpatterns = [
-    path('events/', EventList.as_view(), name='event-list'), 
+    # actualizar y borrar:
+    path('events/', EventList.as_view(), name='post-list-create'), 
+    path('events/<int:event_id>/', EventDetailView.as_view(), name='post-detail-update-delete'),
 
-    path('events/<int:event_id>/', EventDetailView.as_view(), name='event-detail'),
+    # Nuevo:
+    #path('events/<int:event_name>/', EventDetailedViewName.as_view(), name='event'),
+    path('tickets-Types/', TicketTypesListView.as_view(), name='tickets-Types'), 
+    path('tickets/', TicketListView.as_view(), name='ticket'), 
 ]
