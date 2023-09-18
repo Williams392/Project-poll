@@ -1,6 +1,8 @@
 
-pasos_2
+pasos_2.txt
+pasos_2.txt
 .env
+
 
 core/authentication/
 core/clubs/
@@ -8,5 +10,4 @@ core/fundamentals/
 
 
 core/db.sqlite3
-       
-
+db.sqlite3

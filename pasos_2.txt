@@ -25,7 +25,7 @@ _ comando -> [[python3 -m venv venv], se crear la carpeta -> [venv]
 . comando -> [[pip install Django] 
 
 _ 3.1: Para usar (Django REST Framework)
---> Comando -> [[pip install djangorestframework]
+--> Comando -> [[pip install djangorestframework] 
 
 #----------
 
