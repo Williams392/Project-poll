@@ -1,3 +1,4 @@
+# En esta parte se utiliza para registrar los modelos de la aplicacion Admin Django:
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -24,8 +25,6 @@ class EventList(APIView): # Lista de eventos
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     
-    
-
 class EventDetailView(APIView): # VistaDetalleEvento:
 
     parser_classes = [JSONParser]

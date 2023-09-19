@@ -11,3 +11,7 @@ core/fundamentals/
 
 core/db.sqlite3
 db.sqlite3
+
+# Terminal:
+core/db.sqlite3
+pasos_2.txt

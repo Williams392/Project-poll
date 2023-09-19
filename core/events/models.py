@@ -1,4 +1,4 @@
-# Estructura de la app movil Events:
+# Estructura de la app movil Events | en este parte se define los modelos de datos BD:
 import uuid
 
 from django.db import models

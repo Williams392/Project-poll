@@ -1,5 +1,5 @@
 
-_ Desde Consola:
+_ Desde Consola - crear el archivo proyecto:
 # comando -> [cd Desktop]
 # comando -> [mkdir app-movies] -> Crar carpeta.
 # comando -> [cd app-movies]
