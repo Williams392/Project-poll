@@ -7,28 +7,36 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 
 from .models import Events, Ticket, TicketType
-from .serializers import EventsSerializer, TicketsSerializer, TicketsTypeSerializer
+from .serializers import EventsSerializer, EventCreateUpdateSerializer, TicketsSerializer, TicketsTypeSerializer
 
-class EventList(APIView): # Lista de eventos
-    parser_classes = [JSONParser]
+# nuevo:
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated 
 
+from authentication.models import Profile
+import uuid
+
+# Lista de eventos:
+class EventList(APIView):
     def get(self, request, format=None):
-        queryset = Events.objects.all()
+        club_id = request.query_params.get('club-id', False)
+        if club_id:
+            queryset = Events.objects.filter(organizers__rotary_club_id = club_id)
+        else:
+            queryset = Events.objects.all()
         serializer = EventsSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = EventsSerializer(data=request.data)
+        serializer = EventCreateUpdateSerializer(data=request.data)
         
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     
-class EventDetailView(APIView): # VistaDetalleEvento:
-
-    parser_classes = [JSONParser]
-
+# VistaDetalleEvento:
+class EventDetailView(APIView):
     def get(self, request, event_id, format=None):
         event = get_object_or_404(Events, pk=event_id) 
         serializer = EventsSerializer(event)
@@ -36,12 +44,11 @@ class EventDetailView(APIView): # VistaDetalleEvento:
 
     def put(self, request, event_id, format=None):
         event = get_object_or_404(Events, pk=event_id)
-        serializer = EventsSerializer(event, data=request.data)
+        serializer = EventCreateUpdateSerializer(event, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
     def delete(self, request, event_id, format=None):
         event = get_object_or_404(Events, pk=event_id)
@@ -49,15 +56,81 @@ class EventDetailView(APIView): # VistaDetalleEvento:
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     
-# Nuevo:
+# Nuevo: -------------------------------------------------------------------------
+
+# Vista de lista de tipos de boletos:
 class TicketTypesListView(APIView):
-    def get(self, request, format=None):
-        roles = TicketType.objects.all()
-        serializer = TicketsTypeSerializer(roles, many=True)
+    def get(self, request, event_id, format=None):
+        event = get_object_or_404(Events, pk=event_id) 
+        tickets_available = TicketType.objects.filter(event = event)
+        serializer = TicketsTypeSerializer(tickets_available, many=True)
         return Response(serializer.data)
 
+# Vista de lista de entradas:
 class TicketListView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, format=None):
-        roles = Ticket.objects.all()
-        serializer = TicketsSerializer(roles, many=True)
+        user = request.user
+        profile = Profile.objects.get(user = user)
+        event_id = request.query_params.get('event-id', False)
+        if event_id:
+            event = get_object_or_404(Events, pk=event_id) 
+            tickets = Ticket.objects.filter(ticket_type__event = event, assigned_to = profile)
+        else:
+            tickets = Ticket.objects.filter(assigned_to = profile)
+        serializer = TicketsSerializer(tickets, many=True)
         return Response(serializer.data)
+
+    def post(self, request, format=None):
+        user = request.user
+        profile = Profile.objects.get(user = user)
+        ticket_type = request.query_params.get('ticket-type', False)
+        if not ticket_type:
+            return Response(
+                {
+                    'message': 'Ticket type is required'
+                }, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            ticket_type = get_object_or_404(TicketType, pk=ticket_type)
+            ticket, created = Ticket.objects.get_or_create(ticket_type = ticket_type, assigned_to = profile)
+            serializer = TicketsSerializer(ticket)
+            return Response(serializer.data)
+        
+# Vista de escaneo de boletos:
+class TicketScanView(APIView):
+    
+    def post(self, request, format=None):
+        code = request.data.get('code', None)
+        
+        if not code:
+            response_data = {
+                'message': 'Ticket code is required'
+            }
+            status_code = status.HTTP_400_BAD_REQUEST
+        else:
+            try:
+                uuid_obj = uuid.UUID(code)
+            except ValueError:
+                response_data = {
+                    'message': 'UUID invalid'
+                }
+                status_code = status.HTTP_400_BAD_REQUEST
+            else:
+                try:
+                    ticket = Ticket.objects.get(code=code)
+                except Ticket.DoesNotExist:
+                    response_data = {
+                        'message': 'No valid ticket found'
+                    }
+                    status_code = status.HTTP_404_NOT_FOUND
+                else:
+                    response_data = {
+                        'message': 'Ticket scanned successfully.'
+                    }
+                    status_code = status.HTTP_202_ACCEPTED
+                    ticket.scan_done = True
+                    ticket.save()
+
+        return Response(response_data, status=status_code)

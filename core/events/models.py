@@ -1,10 +1,9 @@
 # Estructura de la app movil Events | en este parte se define los modelos de datos BD:
-import uuid
 
+import uuid
 from django.db import models
 from fundamentals.models import Club
 from authentication.models import Profile
-
 from fundamentals.models import Currency
 from django.core.validators import MinValueValidator
 
