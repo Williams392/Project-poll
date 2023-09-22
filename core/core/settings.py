@@ -85,6 +85,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Proximamente con PostgreSQL + AWS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
